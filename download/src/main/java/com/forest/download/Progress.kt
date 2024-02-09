@@ -42,4 +42,11 @@ class Progress(
     fun percentStr(): String {
         return "${percent()}%"
     }
+
+    /**
+     * Return progress value. Range 0.0 - 1.0
+     */
+    fun progress(): Float {
+        return (percent() * 0.01f).toFloat()
+    }
 }
