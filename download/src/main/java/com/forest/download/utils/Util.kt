@@ -5,6 +5,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import java.math.RoundingMode
 import java.util.concurrent.atomic.AtomicInteger
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 fun String.toLongOrDefault(defaultValue: Long): Long {
     return try {
@@ -83,4 +86,11 @@ suspend fun <T, R> (Collection<T>).parallel(
     }
 
     return@coroutineScope results
+}
+
+fun ByteArray.decrypt(key: String, iv: String): ByteArray {
+    val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+    val keySpec = SecretKeySpec(key.toByteArray(), "AES")
+    cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
+    return  cipher.doFinal(this)
 }

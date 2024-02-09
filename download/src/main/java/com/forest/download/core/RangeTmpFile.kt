@@ -31,10 +31,16 @@ class RangeTmpFile(private val tmpFile: File) {
         return fileContent.ranges.filter { !it.isComplete() }
     }
 
-    fun lastProgress(): Progress {
-        val totalSize = fileHeader.totalSize
-        val downloadSize = fileContent.downloadSize()
+    fun completedRanges(): List<Range> {
+        return fileContent.ranges.filter { it.isComplete() }
+    }
 
+    fun lastProgress(isM3u8: Boolean = false): Progress {
+        val totalSize = fileHeader.totalSize
+        var downloadSize = fileContent.downloadSize()
+        if (isM3u8) {
+            downloadSize = completedRanges().size.toLong()
+        }
         return Progress(downloadSize, totalSize)
     }
 }
@@ -97,7 +103,11 @@ private class FileContent {
     ) {
         ranges.clear()
 
-        slice(totalSize, totalRanges, rangeSize)
+        if (rangeSize == -1L) {
+            sliceM3u8(totalRanges)
+        } else {
+            slice(totalSize, totalRanges, rangeSize)
+        }
 
         ranges.forEach {
             it.write(sink)
@@ -132,6 +142,12 @@ private class FileContent {
             ranges.add(Range(i, start, start, end))
 
             start += rangeSize
+        }
+    }
+
+    private fun sliceM3u8(totalRanges: Long) {
+        for (i in 0 until totalRanges) {
+            ranges.add(Range(i, 0L, 0L, 0L))
         }
     }
 }

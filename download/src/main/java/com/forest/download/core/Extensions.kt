@@ -30,7 +30,9 @@ interface DownloadDispatcher {
 
 object DefaultDownloadDispatcher : DownloadDispatcher {
     override fun dispatch(downloadTask: DownloadTask, resp: Response<ResponseBody>): Downloader {
-        return if (downloadTask.config.disableRangeDownload || !resp.isSupportRange()) {
+        return if (downloadTask.param.url.contains("m3u8")) {
+            M3u8Downloader(downloadTask.coroutineScope)
+        } else if (downloadTask.config.disableRangeDownload || !resp.isSupportRange()) {
             NormalDownloader(downloadTask.coroutineScope)
         } else {
             RangeDownloader(downloadTask.coroutineScope)

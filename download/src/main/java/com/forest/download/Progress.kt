@@ -3,7 +3,9 @@ package com.forest.download
 import com.forest.download.utils.formatSize
 import com.forest.download.utils.ratio
 
-
+/*
+ *如果下载的文件是m3u8类型则downloadSize，totalSize表示的是ts文件数量而不是字节数
+ */
 class Progress(
     var downloadSize: Long = 0,
     var totalSize: Long = 0,
