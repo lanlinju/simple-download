@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SimpleDownloadDemo"
 include(":app")
- 
+include(":download")
