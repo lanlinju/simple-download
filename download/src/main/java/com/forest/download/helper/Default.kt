@@ -21,9 +21,4 @@ object Default {
      * 默认的Header
      */
     val RANGE_CHECK_HEADER = mapOf("Range" to "bytes=0-")
-
-    /**
-     * 默认IV偏移量
-     */
-    const val DEFAULT_IV = "0000000000000000"
 }

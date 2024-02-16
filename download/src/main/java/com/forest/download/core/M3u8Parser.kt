@@ -1,6 +1,5 @@
 package com.forest.download.core
 
-import com.forest.download.helper.Default.DEFAULT_IV
 import com.forest.download.utils.closeQuietly
 import java.net.URI
 
@@ -11,7 +10,7 @@ class M3u8Parser(param: DownloadParam) {
     private var redirectUrl: String = ""
     private val tsUrlList = ArrayList<String>()
     private var key: String = ""
-    private var iv: String = DEFAULT_IV
+    private var iv: String = "0000000000000000"
 
     init {
         originalUrl = param.url

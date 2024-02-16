@@ -3,8 +3,8 @@ package com.forest.download.core
 
 open class DownloadParam(
     var url: String,
-    var saveName: String,
-    var savePath: String = "",
+    var saveName: String = "",
+    var savePath: String,
 ) {
 
     /**
